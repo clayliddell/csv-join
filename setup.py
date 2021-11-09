@@ -13,6 +13,6 @@ setup(
         'pandas>=1.3.0',
     ],
     entry_points = {
-        'console_scripts': ['csvcolumnjoin=csvjoin.__main__:main'],
+        'console_scripts': ['csv-join=csvjoin.__main__:main'],
     },
 )
