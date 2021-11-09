@@ -1,0 +1,19 @@
+[
+  {
+    "source_path": "source.csv",
+    "map_path": "map.csv",
+    "target_path": "target.csv",
+    "column_sets": [
+      {
+        "source_id_column": "id",
+        "map_columns": {
+          "map_id": "map_name"
+        },
+        "target_value_column": "name",
+        "transformers": [
+          "flip_names"
+        ]
+      }
+    ]
+  }
+]
