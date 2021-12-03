@@ -31,9 +31,30 @@ def main() -> None:
     # Execute the generated commands.
     for command in commands:
         print('Processing file "%s"...' % command['source_path'], end=' ', flush=True)
-        target = cj.generate(command['source_path'], command['map_path'], command['column_sets'])
-        cj.write(target, command['target_path'] or command['source_path'])
+        # Read the source CSV file.
+        source_csv = read_source(command['source_path'])
+        # Collect all of the necessary columns which will need to be extracted from
+        # the map CSV file.
+        map_columns = []; [[map_columns.extend(column_pair) for column_pair in columns['map_columns'].items()] for columns in command['column_sets']]
+        # Read the necessary columns from the map CSV file.
+        map_csv = read_map(map_path, map_columns)
+        # Perform the merge and write the output.
+        target = cj.generate(source_csv, map_csv, command['column_sets'])
+        write(target, command['target_path'] or command['source_path'])
         print('Done!')
+
+# Read the source CSV file.
+def read_source(source_path: str) -> pd.DataFrame:
+    return pd.read_csv(source_path, dtype=str)
+
+# Read the specified columns from the map CSV file.
+def read_map(map_path: str, map_columns: [str]) -> pd.DataFrame:
+    return pd.read_csv(map_path, usecols=map_columns, dtype=str)
+
+# Write the supplied Pandas DataFrame to a CSV file using the given file path
+# and ID column name.
+def write(target: pd.DataFrame, file_path: str) -> None:
+    target.to_csv(file_path, index=False)
 
 # Construct argument parser.
 def parse_args() -> argparse.Namespace:
