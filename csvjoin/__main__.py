@@ -45,11 +45,11 @@ def main() -> None:
 
 # Read the source CSV file.
 def read_source(source_path: str) -> pd.DataFrame:
-    return pd.read_csv(source_path, dtype=str)
+    return pd.read_csv(source_path, dtype=str, keep_default_na=False)
 
 # Read the specified columns from the map CSV file.
 def read_map(map_path: str, map_columns: [str]) -> pd.DataFrame:
-    return pd.read_csv(map_path, usecols=map_columns, dtype=str)
+    return pd.read_csv(map_path, usecols=map_columns, dtype=str, keep_default_na=False)
 
 # Write the supplied Pandas DataFrame to a CSV file using the given file path
 # and ID column name.
